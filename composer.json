@@ -33,7 +33,7 @@
   },
   "autoload-dev": {
     "classmap": [
-      "tests/_util"
+      "tests/helpers"
     ]
   },
   "minimum-stability": "stable",
