@@ -17,11 +17,13 @@
     }
   ],
   "require": {
-    "php": ">=5.5.9"
+    "php": ">=5.5.9",
+    "phpunit/phpunit": "~5.3"
   },
   "require-dev": {
     "aedart/license": "1.*",
-    "aedart/license-file-manager": "~1.6"
+    "aedart/license-file-manager": "~1.6",
+    "codeception/codeception": "~2.1"
   },
   "autoload": {
     "psr-4": {
