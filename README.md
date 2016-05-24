@@ -34,7 +34,9 @@ Inside your test case, use the given trait and invoke the `assertGetterSetterTra
 class MyTraitTest extends Test
 {
 
-    // ... setup not shown ... //
+    use \Aedart\Testing\GST\GetterSetterTraitTester;
+
+    // ... test setup not shown ... //
 
     /**
      * @test
