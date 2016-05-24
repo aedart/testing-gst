@@ -23,6 +23,7 @@
   "require-dev": {
     "aedart/license": "1.*",
     "aedart/license-file-manager": "~1.6",
+    "fzaninotto/faker": "~1.5",
     "codeception/codeception": "~2.1"
   },
   "autoload": {
