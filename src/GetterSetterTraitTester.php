@@ -294,4 +294,26 @@ trait GetterSetterTraitTester
 
         $this->assertSame($defaultValue, $traitMock->$getPropertyMethodName(), $failMessage);
     }
+
+    /**
+     * Assert that the given trait is compatible with the given interface
+     *
+     * @param string $traitClassPath
+     * @param string $interfaceClassPath
+     */
+    public function assertTraitCompatibility($traitClassPath, $interfaceClassPath)
+    {
+        $id = 'Dummy' . str_replace('.', '_', microtime(true));
+
+        $template = "class {$id} implements {$interfaceClassPath} { use {$traitClassPath}; }";
+
+        // PHP will automatically fail if the trait contains
+        // less or incorrect interface defined methods.
+        // This may not be the best way of testing this - but it works.
+        // Future versions will improve on this, and allow for none-blocking failures.
+        // --> PHP 7's Anonymous classes could be a good an alternative.
+        eval($template);
+
+        $this->assertTrue(true);
+    }
 }
