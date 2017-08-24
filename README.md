@@ -1,7 +1,7 @@
-[![Latest Stable Version](https://poser.pugx.org/aedart/testing-gts/v/stable)](https://packagist.org/packages/aedart/testing-gts)
-[![Total Downloads](https://poser.pugx.org/aedart/testing-gts/downloads)](https://packagist.org/packages/aedart/testing-gts)
-[![Latest Unstable Version](https://poser.pugx.org/aedart/testing-gts/v/unstable)](https://packagist.org/packages/aedart/testing-gts)
-[![License](https://poser.pugx.org/aedart/testing-gts/license)](https://packagist.org/packages/aedart/testing-gts)
+[![Latest Stable Version](https://poser.pugx.org/aedart/testing-gst/v/stable)](https://packagist.org/packages/aedart/testing-gst)
+[![Total Downloads](https://poser.pugx.org/aedart/testing-gst/downloads)](https://packagist.org/packages/aedart/testing-gst)
+[![Latest Unstable Version](https://poser.pugx.org/aedart/testing-gst/v/unstable)](https://packagist.org/packages/aedart/testing-gst)
+[![License](https://poser.pugx.org/aedart/testing-gst/license)](https://packagist.org/packages/aedart/testing-gst)
 
 # Testing-GTS
 
