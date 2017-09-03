@@ -1,6 +1,10 @@
-<?php namespace Aedart\Testing\GST;
+<?php
+declare(strict_types=1);
+
+namespace Aedart\Testing\GST;
 
 use Aedart\Testing\GST\Exceptions\IncorrectPropertiesAmountException;
+use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit_Framework_MockObject_MockObject;
 use ReflectionClass;
 
@@ -33,7 +37,9 @@ trait GetterSetterTraitTester
      *
      * @return PHPUnit_Framework_MockObject_MockObject
      */
-    protected function makeTraitMock($traitClassPath, array $mockedMethods = []){
+    protected function makeTraitMock(string $traitClassPath, array $mockedMethods = []) : PHPUnit_Framework_MockObject_MockObject
+    {
+        /** @var \PHPUnit\Framework\TestCase $this */
         return $this->getMockForTrait(
             $traitClassPath,
             [],
@@ -53,7 +59,8 @@ trait GetterSetterTraitTester
      *
      * @return string
      */
-    protected function getPropertyName(){
+    protected function getPropertyName() : string
+    {
         return ucwords($this->traitPropertyName);
     }
 
@@ -64,7 +71,8 @@ trait GetterSetterTraitTester
      *
      * @return string E.g. setDescription, setName, setId
      */
-    protected function setPropertyMethodName() {
+    protected function setPropertyMethodName() : string
+    {
         return 'set' . $this->getPropertyName();
     }
 
@@ -75,7 +83,8 @@ trait GetterSetterTraitTester
      *
      * @return string E.g. getDescription, getName, getId
      */
-    protected function getPropertyMethodName() {
+    protected function getPropertyMethodName() : string
+    {
         return 'get' . $this->getPropertyName();
     }
 
@@ -86,7 +95,8 @@ trait GetterSetterTraitTester
      *
      * @return string E.g. hasDescription, hasName, hasId
      */
-    protected function hasPropertyMethodName() {
+    protected function hasPropertyMethodName() : string
+    {
         return 'has' . $this->getPropertyName();
     }
 
@@ -97,7 +107,8 @@ trait GetterSetterTraitTester
      *
      * @return string E.g. getDefaultDescription, getDefaultName, getDefaultId
      */
-    protected function getDefaultPropertyMethodName() {
+    protected function getDefaultPropertyMethodName() : string
+    {
         return 'getDefault' . $this->getPropertyName();
     }
 
@@ -108,7 +119,8 @@ trait GetterSetterTraitTester
      *
      * @return string E.g. hasDefaultDescription, hasDefaultName, hasDefaultId
      */
-    protected function hasDefaultPropertyMethodName() {
+    protected function hasDefaultPropertyMethodName() : string
+    {
         return 'hasDefault' . $this->getPropertyName();
     }
 
@@ -119,15 +131,20 @@ trait GetterSetterTraitTester
      * @see traitPropertyName
      *
      * @param string $traitClassPath
+     *
+     * @throws IncorrectPropertiesAmountException
      */
-    protected function guessPropertyNameFor($traitClassPath)
+    protected function guessPropertyNameFor(string $traitClassPath)
     {
         $reflection = new ReflectionClass($traitClassPath);
 
         $properties = $reflection->getProperties();
 
-        if(count($properties) != 1){
-            throw new IncorrectPropertiesAmountException(sprintf('Trait %s contains incorrect properties amount. This helper can only test a single property!', $traitClassPath));
+        if (count($properties) != 1) {
+            throw new IncorrectPropertiesAmountException(sprintf(
+                'Trait %s contains incorrect properties amount. This helper can only test a single property!',
+                $traitClassPath
+            ));
         }
 
         $this->traitPropertyName = $properties[0]->getName();
@@ -139,10 +156,11 @@ trait GetterSetterTraitTester
      *
      * @param string $message
      */
-    protected function output($message){
+    protected function output(string $message)
+    {
         // get args
         $args = $_SERVER['argv'];
-        if(in_array('--debug', $args) || in_array('-vvv', $args) || in_array('--verbose', $args)){
+        if (in_array('--debug', $args) || in_array('-vvv', $args) || in_array('--verbose', $args)) {
             fwrite(STDERR, PHP_EOL . $message);
         }
     }
@@ -159,8 +177,11 @@ trait GetterSetterTraitTester
      * @param string $traitClassPath Class path to the trait in question
      * @param mixed $valueToSetAndObtain
      * @param mixed $customDefaultValue
+     *
+     * @throws AssertionFailedError
      */
-    public function assertGetterSetterTraitMethods($traitClassPath, $valueToSetAndObtain, $customDefaultValue) {
+    public function assertGetterSetterTraitMethods(string $traitClassPath, $valueToSetAndObtain, $customDefaultValue)
+    {
         $this->output(sprintf('Asserting "%s"', $traitClassPath));
 
         $this->guessPropertyNameFor($traitClassPath);
@@ -177,12 +198,14 @@ trait GetterSetterTraitTester
         $this->assertHasNoValue($traitMock, $this->hasPropertyMethodName());
 
         // Ensures that a value can be set and retrieved
-        $this->assertCanSpecifyAndObtainValue($traitMock, $this->setPropertyMethodName(), $this->getPropertyMethodName(), $valueToSetAndObtain);
+        $this->assertCanSpecifyAndObtainValue($traitMock, $this->setPropertyMethodName(),
+            $this->getPropertyMethodName(), $valueToSetAndObtain);
 
         // Ensure that a custom defined default value is returned by default,
         // if no other value has been set prior to invoking the `get-property`
         // method.
-        $this->assertReturnsCustomDefaultValue($traitClassPath, $this->getDefaultPropertyMethodName(), $this->getPropertyMethodName(), $customDefaultValue);
+        $this->assertReturnsCustomDefaultValue($traitClassPath, $this->getDefaultPropertyMethodName(),
+            $this->getPropertyMethodName(), $customDefaultValue);
     }
 
     /**
@@ -192,8 +215,14 @@ trait GetterSetterTraitTester
      * @param PHPUnit_Framework_MockObject_MockObject $traitMock
      * @param string $hasDefaultPropertyMethodName
      * @param string $failMessage
+     *
+     * @throws AssertionFailedError
      */
-    public function assertHasNoDefaultValue(PHPUnit_Framework_MockObject_MockObject $traitMock, $hasDefaultPropertyMethodName, $failMessage = 'Should not contain default value') {
+    public function assertHasNoDefaultValue(
+        PHPUnit_Framework_MockObject_MockObject $traitMock,
+        string $hasDefaultPropertyMethodName,
+        string $failMessage = 'Should not contain default value'
+    ) {
         $this->output(sprintf(' testing %s()', $hasDefaultPropertyMethodName));
 
         $this->assertFalse($traitMock->$hasDefaultPropertyMethodName(), $failMessage);
@@ -206,8 +235,14 @@ trait GetterSetterTraitTester
      * @param PHPUnit_Framework_MockObject_MockObject $traitMock
      * @param string $getDefaultPropertyMethodName
      * @param string $failMessage
+     *
+     * @throws AssertionFailedError
      */
-    public function assertDefaultValueIsNull(PHPUnit_Framework_MockObject_MockObject $traitMock, $getDefaultPropertyMethodName, $failMessage = 'Default value should be null') {
+    public function assertDefaultValueIsNull(
+        PHPUnit_Framework_MockObject_MockObject $traitMock,
+        string $getDefaultPropertyMethodName,
+        string $failMessage = 'Default value should be null'
+    ) {
         $this->output(sprintf(' testing %s()', $getDefaultPropertyMethodName));
 
         $this->assertNull($traitMock->$getDefaultPropertyMethodName(), $failMessage);
@@ -220,8 +255,14 @@ trait GetterSetterTraitTester
      * @param PHPUnit_Framework_MockObject_MockObject $traitMock
      * @param string $hasPropertyMethodName
      * @param string $failMessage
+     *
+     * @throws AssertionFailedError
      */
-    public function assertHasNoValue(PHPUnit_Framework_MockObject_MockObject $traitMock, $hasPropertyMethodName, $failMessage = 'Should not have a value set') {
+    public function assertHasNoValue(
+        PHPUnit_Framework_MockObject_MockObject $traitMock,
+        string $hasPropertyMethodName,
+        string $failMessage = 'Should not have a value set'
+    ) {
         $this->output(sprintf(' testing %s()', $hasPropertyMethodName));
 
         $this->assertFalse($traitMock->$hasPropertyMethodName(), $failMessage);
@@ -237,15 +278,17 @@ trait GetterSetterTraitTester
      * @param string $getPropertyMethodName
      * @param mixed $value
      * @param string $failMessage
+     *
+     * @throws AssertionFailedError
      */
     public function assertCanSpecifyAndObtainValue(
         PHPUnit_Framework_MockObject_MockObject $traitMock,
-        $setPropertyMethodName,
-        $getPropertyMethodName,
+        string $setPropertyMethodName,
+        string $getPropertyMethodName,
         $value,
-        $failMessage = 'Incorrect value obtained'
-    ){
-        if(is_object($value)){
+        string $failMessage = 'Incorrect value obtained'
+    ) {
+        if (is_object($value)) {
             $this->output(sprintf(' testing %s(%s)', $setPropertyMethodName, get_class($value)));
         } else {
             $this->output(sprintf(' testing %s(%s)', $setPropertyMethodName, var_export($value, true)));
@@ -268,18 +311,26 @@ trait GetterSetterTraitTester
      * @param string $getPropertyMethodName
      * @param mixed $defaultValue
      * @param string $failMessage
+     *
+     * @throws AssertionFailedError
      */
     public function assertReturnsCustomDefaultValue(
-        $traitClassPath,
-        $getDefaultPropertyMethodName,
-        $getPropertyMethodName,
+        string $traitClassPath,
+        string $getDefaultPropertyMethodName,
+        string $getPropertyMethodName,
         $defaultValue,
-        $failMessage = 'Incorrect default value returned'
-    ){
-        if(is_object($defaultValue)){
-            $this->output(sprintf(' mocking %s(), must return %s', $getDefaultPropertyMethodName, get_class($defaultValue)));
+        string $failMessage = 'Incorrect default value returned'
+    ) {
+        if (is_object($defaultValue)) {
+            $this->output(sprintf(
+                ' mocking %s(), must return %s', $getDefaultPropertyMethodName,
+                get_class($defaultValue)
+            ));
         } else {
-            $this->output(sprintf(' mocking %s(), must return %s', $getDefaultPropertyMethodName, var_export($defaultValue, true)));
+            $this->output(sprintf(
+                ' mocking %s(), must return %s', $getDefaultPropertyMethodName,
+                var_export($defaultValue, true)
+            ));
         }
 
         $traitMock = $this->makeTraitMock($traitClassPath, [
@@ -300,8 +351,10 @@ trait GetterSetterTraitTester
      *
      * @param string $traitClassPath
      * @param string $interfaceClassPath
+     *
+     * @throws AssertionFailedError
      */
-    public function assertTraitCompatibility($traitClassPath, $interfaceClassPath)
+    public function assertTraitCompatibility(string $traitClassPath, string $interfaceClassPath)
     {
         $id = 'Dummy' . str_replace('.', '_', microtime(true));
 
