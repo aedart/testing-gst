@@ -209,6 +209,8 @@ trait GetterSetterTraitTester
     }
 
     /**
+     * @deprecated Since 2.0. Will be removed in version 3. Redesign your trait without a "has-default" check!
+     *
      * Assert that the there is no default value, by invoking the trait's
      * `has-default-property` method
      *
@@ -223,6 +225,8 @@ trait GetterSetterTraitTester
         string $hasDefaultPropertyMethodName,
         string $failMessage = 'Should not contain default value'
     ) {
+        trigger_error('Deprecated since 2.0. Will be removed in version 3. Please redesign your trait without "has-default" check ', E_USER_DEPRECATED);
+
         $this->output(sprintf(' testing %s()', $hasDefaultPropertyMethodName));
 
         $this->assertFalse($traitMock->$hasDefaultPropertyMethodName(), $failMessage);
