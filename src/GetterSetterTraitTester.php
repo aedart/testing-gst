@@ -189,7 +189,11 @@ trait GetterSetterTraitTester
         $traitMock = $this->makeTraitMock($traitClassPath);
 
         // Ensures that no default value has been set (by default)
-        $this->assertHasNoDefaultValue($traitMock, $this->hasDefaultPropertyMethodName());
+        // TODO: Remove this in version 3.
+        if(method_exists($traitMock, $this->hasDefaultPropertyMethodName())){
+            $this->assertHasNoDefaultValue($traitMock, $this->hasDefaultPropertyMethodName());
+        }
+
 
         // Ensures that the default value is null (by default)
         $this->assertDefaultValueIsNull($traitMock, $this->getDefaultPropertyMethodName());
@@ -225,7 +229,10 @@ trait GetterSetterTraitTester
         string $hasDefaultPropertyMethodName,
         string $failMessage = 'Should not contain default value'
     ) {
-        trigger_error('Deprecated since 2.0. Will be removed in version 3. Please redesign your trait without "has-default" check ', E_USER_DEPRECATED);
+        trigger_error(sprintf(
+            'Deprecated since 2.0. Will be removed in version 3. Please redesign your trait without "%s" check',
+            $hasDefaultPropertyMethodName
+        ), E_USER_DEPRECATED);
 
         $this->output(sprintf(' testing %s()', $hasDefaultPropertyMethodName));
 
