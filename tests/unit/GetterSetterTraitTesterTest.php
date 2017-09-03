@@ -55,4 +55,16 @@ class GetterSetterTraitTesterTest extends Test
             $this->faker->unique()->name
         );
     }
+
+    /**
+     * @test
+     */
+    public function canInvokeGstxMethods()
+    {
+        $this->assertGetterSetterTraitMethods(
+            PersonTrait::class,
+            $this->faker->unique()->name,
+            $this->faker->unique()->name
+        );
+    }
 }
