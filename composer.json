@@ -22,7 +22,7 @@
   },
   "require-dev": {
     "aedart/license": "1.*",
-    "aedart/license-file-manager": "~1.6"
+    "aedart/license-file-manager": "~2.0"
   },
   "autoload": {
     "psr-4": {
