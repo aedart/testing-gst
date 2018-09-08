@@ -3,7 +3,9 @@
 [![Latest Unstable Version](https://poser.pugx.org/aedart/testing-gst/v/unstable)](https://packagist.org/packages/aedart/testing-gst)
 [![License](https://poser.pugx.org/aedart/testing-gst/license)](https://packagist.org/packages/aedart/testing-gst)
 
-# Testing-GTS
+# Deprecated - Testing-GTS
+
+Package has been replaced by Package has been replaced by [aedart/athenaeum](https://github.com/aedart/athenaeum)
 
 Utilities that allows you to test special "getter setter traits", which are found throughout many of my packages.
 
