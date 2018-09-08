@@ -9,6 +9,8 @@ use PHPUnit_Framework_MockObject_MockObject;
 use ReflectionClass;
 
 /**
+ * @deprecated Replaced by \Aedart\Testing\GetterSetterTraitTester in aedart/athenaeum package
+ *
  * Getter Setter Trait Tester
  *
  * Utility for testing custom "getter-setter-traits".
