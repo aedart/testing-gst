@@ -5,7 +5,7 @@
 
 # Deprecated - Testing-GTS
 
-Package has been replaced by Package has been replaced by [aedart/athenaeum](https://github.com/aedart/athenaeum)
+Package has been replaced by [aedart/athenaeum](https://github.com/aedart/athenaeum)
 
 Utilities that allows you to test special "getter setter traits", which are found throughout many of my packages.
 
